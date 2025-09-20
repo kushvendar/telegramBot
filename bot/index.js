@@ -3,7 +3,7 @@ const User = require('../models/User')
 
 function setupBot(token){
 
-    const bot = new TelegramBot(token, {polling: true});
+    const bot = new Telegrambot(token, {polling: true});
 
     bot.on("message", async (msg) => {
     const chatId = msg.chat.id;
