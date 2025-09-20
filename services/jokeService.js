@@ -1,4 +1,5 @@
 const axios = require('axios')
+const User = require('../models/User')
 
 
 // fetching random joke and then integrate it into telegram bot
@@ -16,6 +17,22 @@ async function getJoke() {
     }
 }
 
+async function sendJokes(bot){
+    const users = User.find({enabled:true})
+    const now = new Date()
+
+    // go through every user and sent jokes based on condition
+    for(const user of users){
+        const lastJokeTime = now - user.lastSent
+        if(lastJokeTime>=user.frequency){
+            const joke = await getJoke()
+            bot.sendMessage(user.chatId,joke)
+            user.lastSent = new Date()
+            await user.save()
+        }
+    }
+
+}
 
 
 
@@ -23,10 +40,4 @@ async function getJoke() {
 
 
 
-
-
-
-
-
-
-module.exports = {}
+module.exports = {getJoke, sendJokes}
