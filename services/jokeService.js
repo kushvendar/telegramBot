@@ -18,7 +18,7 @@ async function getJoke() {
 }
 
 async function sendJokes(bot){
-    const users = User.find({enabled:true})
+    const users = User.find({isEnabled:true})
     const now = new Date()
 
     // go through every user and sent jokes based on condition
